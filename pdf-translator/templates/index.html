@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF Translator</title>
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;background:#0b0f17;color:#ecf2ff;margin:0}
+    .wrap{max-width:680px;margin:0 auto;padding:28px 16px}
+    .card{background:#111a2b;border:1px solid #2a3554;border-radius:14px;padding:16px}
+    h1{margin:0 0 8px;font-size:24px}
+    p{color:#a9b7d8}
+    label{display:block;margin:12px 0 6px;color:#c9d7fb}
+    input,select,button{width:100%;padding:10px;border-radius:8px;border:1px solid #30406a;background:#0d1426;color:#ecf2ff}
+    button{margin-top:14px;background:#2d6cdf;border-color:#2d6cdf;font-weight:700;cursor:pointer}
+    .flash{margin:10px 0;color:#ffd9d9;background:#44222a;border:1px solid #7a3946;padding:10px;border-radius:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>PDF Translator (MVP)</h1>
+      <p>PDF를 업로드하면 번역된 HTML 결과를 생성합니다. (그래프/이미지 포함)</p>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for m in messages %}
+            <div class="flash">{{ m }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form action="/translate" method="post" enctype="multipart/form-data">
+        <label>PDF 파일</label>
+        <input type="file" name="pdf" accept="application/pdf" required />
+
+        <label>원문 언어</label>
+        <select name="source_lang">
+          <option value="auto">auto</option>
+          <option value="en" selected>en (English)</option>
+          <option value="ko">ko (Korean)</option>
+          <option value="ja">ja (Japanese)</option>
+          <option value="zh-CN">zh-CN (Chinese Simplified)</option>
+        </select>
+
+        <label>번역 언어</label>
+        <select name="target_lang">
+          <option value="ko" selected>ko (Korean)</option>
+          <option value="en">en (English)</option>
+          <option value="ja">ja (Japanese)</option>
+          <option value="zh-CN">zh-CN (Chinese Simplified)</option>
+        </select>
+
+        <button type="submit">번역 시작</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
