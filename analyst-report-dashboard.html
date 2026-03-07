@@ -36,6 +36,26 @@
       margin-bottom: 18px;
     }
     @media (max-width: 860px) { .controls { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) {
+      .wrap { padding: 16px 12px 28px; }
+      h1 { font-size: 22px; line-height: 1.25; }
+      .sub { font-size: 14px; }
+      input, select { min-height: 44px; font-size: 16px; }
+      .controls {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(11,16,32,0.92);
+        backdrop-filter: blur(6px);
+        padding-top: 6px;
+        margin-left: -2px;
+        margin-right: -2px;
+      }
+      .card { padding: 12px; border-radius: 12px; }
+      .title { font-size: 16px; }
+      .meta, .box, li { font-size: 14px; }
+      .kpi { grid-template-columns: 1fr; }
+    }
     .control {
       background: var(--panel);
       border: 1px solid #253257;
