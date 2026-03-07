@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>애널리스트 리포트 요약 대시보드</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #131a2e;
+      --muted: #9aa4bf;
+      --text: #ecf0ff;
+      --accent: #6ea8fe;
+      --chip: #1e2742;
+      --ok: #3ddc97;
+      --warn: #f6c76a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      background: linear-gradient(180deg, #080c19 0%, #0b1020 100%);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 40px;
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    .sub { color: var(--muted); margin-bottom: 18px; }
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 860px) { .controls { grid-template-columns: 1fr; } }
+    .control {
+      background: var(--panel);
+      border: 1px solid #253257;
+      border-radius: 12px;
+      padding: 10px;
+    }
+    label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    input, select {
+      width: 100%;
+      border: 1px solid #2f406f;
+      background: #0d1428;
+      color: var(--text);
+      border-radius: 8px;
+      padding: 9px 10px;
+      outline: none;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 920px) { .cards { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--panel);
+      border: 1px solid #253257;
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .topline { display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 8px; }
+    .chip {
+      background: var(--chip);
+      border: 1px solid #334576;
+      color: #c7d4fb;
+      border-radius: 999px;
+      font-size: 12px;
+      padding: 4px 9px;
+    }
+    .title { font-size: 18px; font-weight: 700; margin: 6px 0 8px; line-height: 1.35; }
+    .meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+    ul { margin: 6px 0 8px 20px; padding: 0; }
+    li { margin: 5px 0; line-height: 1.45; }
+    .kpi {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .box {
+      background: #0e162e;
+      border: 1px solid #2d3d6b;
+      border-radius: 10px;
+      padding: 8px;
+      font-size: 13px;
+    }
+    .box b { display:block; margin-bottom: 4px; }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .foot {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      background: #0e162d;
+      border: 1px solid #2a3b68;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 22px 0;
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>애널리스트 리포트 요약 대시보드</h1>
+    <div class="sub">최근 수집한 국내 증권사 리포트 핵심 포인트를 한눈에 볼 수 있게 정리했습니다.</div>
+
+    <div class="controls">
+      <div class="control">
+        <label for="q">검색 (종목/키워드/애널리스트)</label>
+        <input id="q" placeholder="예: 현대차, SK바이오팜, 게임, AI" />
+      </div>
+      <div class="control">
+        <label for="firm">증권사 필터</label>
+        <select id="firm">
+          <option value="">전체</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="type">분류 필터</label>
+        <select id="type">
+          <option value="">전체</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="cards" class="cards"></div>
+    <div id="empty" class="empty">조건에 맞는 리포트가 없습니다.</div>
+
+    <div class="foot">
+      ※ 유의: 아래 내용은 각 증권사 리포트/공개 페이지를 기반으로 정리한 참고 요약입니다. 투자 판단의 최종 책임은 본인에게 있습니다.<br/>
+      ※ 링크가 로그인 또는 접근 제한될 수 있습니다.
+    </div>
+  </div>
+
+  <script>
+    const reports = [
+      {
+        firm: "교보증권",
+        type: "기업분석",
+        date: "2026-03-03",
+        title: "현대차 (005380) - Physical-AI 확산 경쟁의 승자",
+        ticker: "현대차",
+        analyst: "김광식",
+        rating: "BUY 유지",
+        target: "목표주가 900,000원 (상향)",
+        summary: [
+          "Physical-AI/자율주행 상용화 경쟁에서 현대차의 상대적 우위 가능성을 강조",
+          "NVIDIA 생태계 활용, SDV 개발, 공급망/양산 인프라를 차별점으로 제시",
+          "레거시 OEM 리레이팅 구간에서 차별적 수혜 기대",
+          "단기 모멘텀뿐 아니라 중장기 제품화 역량을 투자 포인트로 제시"
+        ],
+        points: ["자율주행·로보틱스 확장성", "양산 인프라 기반 실행력"],
+        risks: ["기술 상용화 속도 지연", "경쟁사 대응/정책 변수"],
+        source: "https://m.iprovest.com/weblogic/RSDownloadServlet?filePath=/research/report/cominf/20260303/20260303_005380_20250021_60.pdf"
+      },
+      {
+        firm: "교보증권",
+        type: "기업분석",
+        date: "2026-03-04",
+        title: "SK바이오팜 (326030) - 숫자와 R&D 함께 성장 중",
+        ticker: "SK바이오팜",
+        analyst: "정희령",
+        rating: "BUY 유지",
+        target: "목표주가 150,000원 (유지)",
+        summary: [
+          "4Q25 매출/이익 성장과 처방 데이터의 우상향 흐름에 주목",
+          "엑스코프리 매출 가이던스와 미국 처방 추세가 핵심 변수",
+          "R&D 확대 기조로 비용은 증가하나 성장 파이프라인 가속화 기대",
+          "분기별로는 판관비 집행 강도에 따라 이익 변동성 가능"
+        ],
+        points: ["미국 처방 성장 지속", "파이프라인 진전"],
+        risks: ["판관비 증가", "가이던스 하회 리스크"],
+        source: "https://m.iprovest.com/weblogic/RSDownloadServlet?filePath=/research/report/cominf/20260304/20260304_326030_20250022_41.pdf"
+      },
+      {
+        firm: "KB증권",
+        type: "월간전략",
+        date: "2026-02-27",
+        title: "KB 3월 전략 - 코스피 랠리와 2분기 리스크 점검",
+        ticker: "KOSPI",
+        analyst: "KB 리서치본부",
+        rating: "전략 리포트",
+        target: "3월 코스피 밴드 5,980~6,750pt",
+        summary: [
+          "증시 환경은 우호적이지만 2분기부터 리스크 점검 필요",
+          "전략 업종으로 AI발전 관련/반도체 제시",
+          "강세장 연장 가능성과 변동성 확대 가능성을 동시에 관리할 것을 제안"
+        ],
+        points: ["우호적 유동성/환경", "핵심 주도 업종 존재"],
+        risks: ["실적 눈높이 부담", "대외 이벤트 변동성"],
+        source: "https://rc.kbsec.com/main.able"
+      },
+      {
+        firm: "미래에셋증권",
+        type: "기업분석",
+        date: "2026-03-06",
+        title: "넷마블 (251270/매수) - 앱 수수료 인하의 최대 수혜주",
+        ticker: "넷마블",
+        analyst: "임희석",
+        rating: "매수",
+        target: "리포트 원문 참조",
+        summary: [
+          "게임업 내 앱 수수료 변화의 수혜 가능성을 높게 평가",
+          "비용 구조 개선 기대와 실적 탄력성을 핵심 논리로 제시",
+          "업종 내 상대 매력도를 강조한 리포트"
+        ],
+        points: ["수수료 인하 수혜", "이익 개선 탄력"],
+        risks: ["흥행 변동성", "플랫폼 정책 불확실성"],
+        source: "https://securities.miraeasset.com/bbs/download/2143001.pdf?attachmentId=2143001"
+      },
+      {
+        firm: "미래에셋증권",
+        type: "산업분석",
+        date: "2026-03-06",
+        title: "게임 (비중확대/유지) - 2008년 앱 마켓 이후의 최대 호재",
+        ticker: "게임업종",
+        analyst: "임희석",
+        rating: "비중확대/유지",
+        target: "업종 전략 리포트",
+        summary: [
+          "업종 관점에서 구조적 호재 국면 가능성을 제시",
+          "플랫폼 수수료/정책 변화가 멀티플 재평가로 이어질 수 있다는 관점",
+          "종목 선별과 실적 가시성 점검을 병행 제안"
+        ],
+        points: ["업종 리레이팅 여지", "정책 변화 수혜"],
+        risks: ["정책 반영 지연", "개별 게임 성과 편차"],
+        source: "https://securities.miraeasset.com/bbs/download/2143003.pdf?attachmentId=2143003"
+      }
+    ];
+
+    const $q = document.getElementById('q');
+    const $firm = document.getElementById('firm');
+    const $type = document.getElementById('type');
+    const $cards = document.getElementById('cards');
+    const $empty = document.getElementById('empty');
+
+    function fillFilters() {
+      [...new Set(reports.map(r => r.firm))].sort().forEach(v => {
+        const o = document.createElement('option');
+        o.value = v; o.textContent = v; $firm.appendChild(o);
+      });
+      [...new Set(reports.map(r => r.type))].sort().forEach(v => {
+        const o = document.createElement('option');
+        o.value = v; o.textContent = v; $type.appendChild(o);
+      });
+    }
+
+    function cardHTML(r) {
+      return `
+      <article class="card">
+        <div class="topline">
+          <span class="chip">${r.firm}</span>
+          <span class="chip">${r.type}</span>
+          <span class="chip">${r.date}</span>
+        </div>
+        <div class="title">${r.title}</div>
+        <div class="meta">종목/테마: ${r.ticker} · 애널리스트: ${r.analyst}</div>
+
+        <div class="kpi">
+          <div class="box"><b>의견</b>${r.rating}</div>
+          <div class="box"><b>목표/밴드</b>${r.target}</div>
+        </div>
+
+        <ul>${r.summary.map(s => `<li>${s}</li>`).join('')}</ul>
+        <div class="kpi">
+          <div class="box"><b>투자포인트</b>• ${r.points.join('<br/>• ')}</div>
+          <div class="box"><b>리스크</b>• ${r.risks.join('<br/>• ')}</div>
+        </div>
+
+        <a href="${r.source}" target="_blank" rel="noopener noreferrer">원문 링크 열기 ↗</a>
+      </article>`;
+    }
+
+    function render() {
+      const q = $q.value.trim().toLowerCase();
+      const f = $firm.value;
+      const t = $type.value;
+      const filtered = reports.filter(r => {
+        const blob = `${r.title} ${r.ticker} ${r.analyst} ${r.summary.join(' ')} ${r.points.join(' ')} ${r.risks.join(' ')}`.toLowerCase();
+        return (!f || r.firm === f)
+          && (!t || r.type === t)
+          && (!q || blob.includes(q));
+      });
+
+      $cards.innerHTML = filtered.map(cardHTML).join('');
+      $empty.style.display = filtered.length ? 'none' : 'block';
+    }
+
+    fillFilters();
+    render();
+    [$q, $firm, $type].forEach(el => el.addEventListener('input', render));
+    [$firm, $type].forEach(el => el.addEventListener('change', render));
+  </script>
+</body>
+</html>
