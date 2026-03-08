@@ -20,7 +20,7 @@ KST = timezone(timedelta(hours=9))
 FEEDS = [
     {"name": "매일경제 증권", "url": "https://www.mk.co.kr/rss/30100041/"},
     {"name": "뉴스1 경제", "url": "https://www.news1.kr/rss/economy.xml"},
-    {"name": "뉴시스 속보", "url": "https://www.newsis.com/RSS/sokbo.xml"},
+    {"name": "한경마켓", "url": "https://www.hankyung.com/feed/finance"},
 ]
 
 SECTIONS = {
