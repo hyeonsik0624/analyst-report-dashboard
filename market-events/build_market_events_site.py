@@ -9,12 +9,8 @@ from pathlib import Path
 
 KST = timezone(timedelta(hours=9))
 
-SOURCES = {
-    "fomc": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
-    "cpi": "https://www.bls.gov/schedule/news_release/cpi.htm",
-    "ppi": "https://www.bls.gov/schedule/news_release/ppi.htm",
-}
 NASDAQ_EARNINGS_API = "https://api.nasdaq.com/api/calendar/earnings?date={date}"
+NASDAQ_ECON_API = "https://api.nasdaq.com/api/calendar/economicevents?date={date}"
 
 # YYYY-MM-DD 형식이면 주간 목록에 자동 포함
 MANUAL_EVENTS = [
@@ -88,26 +84,15 @@ def build():
     out = Path('/Users/hyeonsik/.openclaw/workspace/sites/market-events/index.html')
 
     errs = []
-    cpi, ppi, fomc = [], [], []
     earnings_by_day = {}
+    weekly_events = []
 
-    try:
-        cpi = parse_us_dates(fetch_text(SOURCES['cpi']))
-    except Exception as e:
-        errs.append(f"CPI 수집 실패: {e}")
-    try:
-        ppi = parse_us_dates(fetch_text(SOURCES['ppi']))
-    except Exception as e:
-        errs.append(f"PPI 수집 실패: {e}")
-    try:
-        fomc = parse_fomc_dates(fetch_text(SOURCES['fomc']))
-    except Exception as e:
-        errs.append(f"FOMC 수집 실패: {e}")
-
-    # 이번 주 미국 실적 발표(시총 큰 순) 수집
+    # 이번 주 미국 실적 발표(시총 큰 순) + 미국 핵심 매크로 이벤트 수집
     for i in range(7):
         d = today + timedelta(days=i)
         ds = d.strftime('%Y-%m-%d')
+
+        # earnings
         try:
             obj = fetch_json(NASDAQ_EARNINGS_API.format(date=ds))
             rows = (obj.get('data') or {}).get('rows') or []
@@ -117,16 +102,24 @@ def build():
             errs.append(f"실적 일정 수집 실패({ds}): {e}")
             earnings_by_day[d] = []
 
-    weekly_events = []
-    for d in cpi:
-        if today <= d.date() <= week_end:
-            weekly_events.append((d.date(), "미국 CPI 발표", "매크로"))
-    for d in ppi:
-        if today <= d.date() <= week_end:
-            weekly_events.append((d.date(), "미국 PPI 발표", "매크로"))
-    for d in fomc:
-        if today <= d.date() <= week_end:
-            weekly_events.append((d.date(), "FOMC 금리결정/성명", "연준"))
+        # macro events
+        try:
+            eobj = fetch_json(NASDAQ_ECON_API.format(date=ds))
+            erows = (eobj.get('data') or {}).get('rows') or []
+            for r in erows:
+                country = (r.get('country') or '').lower()
+                name = (r.get('eventName') or '')
+                low = name.lower()
+                if country not in ('united states', 'us', 'usa'):
+                    continue
+                if ('consumer price' in low) or (re.search(r'\bcpi\b', low)):
+                    weekly_events.append((d, f"미국 {name}", "매크로"))
+                elif ('producer price' in low) or (re.search(r'\bppi\b', low)):
+                    weekly_events.append((d, f"미국 {name}", "매크로"))
+                elif ('interest rate decision' in low) or ('fomc' in low) or ('fed' in low and 'rate' in low):
+                    weekly_events.append((d, f"미국 {name}", "연준"))
+        except Exception as e:
+            errs.append(f"경제지표 수집 실패({ds}): {e}")
 
     # manual dated events
     for ev in MANUAL_EVENTS:
