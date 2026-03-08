@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>1주차-2차시 준원문</title>
+<style>
+:root { --bg:#0b1020; --card:#121a31; --text:#e8ecff; --muted:#9fb0ff; --accent:#7aa2ff; --ok:#74d99f; --font:18px; --line:1.85; }
+body.light { --bg:#f5f7ff; --card:#ffffff; --text:#13182b; --muted:#4a5686; --accent:#2f5cff; --ok:#198754; }
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;font-size:var(--font);line-height:var(--line)}
+.wrap{max-width:980px;margin:0 auto;padding:24px}
+.panel{background:var(--card);border:1px solid #2a3560;border-radius:16px;padding:18px;margin-bottom:16px}
+h1,h2{margin:0 0 10px} .meta{color:var(--muted);font-size:.95rem}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;align-items:end}
+input[type='range'],input[type='search']{width:100%}
+button{background:var(--accent);color:white;border:none;border-radius:10px;padding:8px 10px;cursor:pointer}
+.reader .para{padding:12px;border-bottom:1px dashed #334173;margin:0}
+mark{background:#ffd54f;color:#222;padding:0 .15em;border-radius:4px}
+textarea{width:100%;min-height:140px;background:transparent;color:var(--text);border:1px solid #3a4a84;border-radius:10px;padding:10px}
+.grid{display:block}
+.badge{display:inline-block;background:rgba(116,217,159,.2);color:var(--ok);padding:4px 8px;border-radius:999px;font-size:.8rem}
+.quiz-item{border:1px solid #4258a0;border-radius:12px;padding:10px;margin:10px 0;background:rgba(122,162,255,.06)}
+.quiz-item .q{font-weight:700;margin-bottom:8px}
+.quiz-item label{display:block;margin:6px 0;cursor:pointer}
+.quiz-item.correct{border-color:#2fbf71;background:rgba(47,191,113,.14)}
+.quiz-item.wrong{border-color:#e35d6a;background:rgba(227,93,106,.14)}
+.explain{color:var(--muted);font-size:.92rem;margin-top:6px;display:none}
+</style></head>
+<body><div class="wrap">
+<section class="panel"><h1>1주차-2차시 준원문</h1>
+<p class="meta">예상 학습시간 6분 · 문단 34개 · 자동 학습도구 포함(검색/하이라이트/셀프퀴즈/메모저장)</p></section>
+<section class="panel controls">
+<label>본문 검색<input id="search" type="search" placeholder="키워드 검색" oninput="runSearch()"></label>
+<label>글자 크기<input id="font" type="range" min="15" max="28" value="18" oninput="setFont(this.value)"></label>
+<label>줄 간격<input id="line" type="range" min="1.4" max="2.4" step="0.05" value="1.85" oninput="setLine(this.value)"></label>
+<button onclick="toggleTheme()">라이트/다크 전환</button><button onclick="toggleFocus()">집중모드</button><button onclick="clearMarks()">하이라이트 초기화</button>
+</section>
+<div class="grid">
+<section class="panel reader" id="reader"><p class="para">네 안녕하세요 지리교육과의 정이용입니다. 이번 시간에는 지리와 인간생활 2주차로 북한의 이해에 대해 배워보도록 하겠습니다. 북한의 이해에서는 먼저 북한에 대한 이미지를 뉴스 검색 및 분석을 통해 확인해보고 북한 정부가 어떻게 수립되어 있는지를 그 과정을 통해 알아보도록 하겠습니다. 그리고 북한의 위치와 영역, 그리고 북한의 자연환경, 인문환경 등을 대서 공부하도록 하겠습니다.</p>
+<p class="para">북한의 이해 학습 목표입니다. 학습 목표로는 지리적인 관점에서 북한을 이해하고 북한의 자연 및 인문환경의 특징을 통해 북한에 대해 알아가는 것이 목표입니다. 북한 하면 떠오르는 것이 무엇이 있을까요? 한번 생각해보도록 하겠습니다.</p>
+<p class="para">북한 하면 일단 김일성, 김정일, 김정은, 그리고 미국 대통령, 그리고 한국 대통령들, 그리고 북한 군정, 다양한 인물들과 그리고 개성공단, 금강산, 원산, 평양, 백두산, 인조계 명산이라고 하는 백두산. 얼마 전에는 영화 백두산이라는 영화가 개봉을 하였죠. 이 영화를 봤다면 북한의 모습을 조금이라도 알 수 있지 않았을까, 간접적으로 한번 보지 않았을까 라는 생각을 하게 됩니다. 그리고 드라마 현빈과 손해진 주연의 사랑의 불시착, 이 드라마를 통해서도 또한 북한에 대한 생각도 하지 않았을까 하는 생각도 듭니다.</p>
+<p class="para">이외에도 북핵, 탄도미사일, 연평해전, 연평도 폭격사건 등 긴장 상태에서 이런 긴장 상태를 계속 이어가는 그런 사건들을 또 생각해낼 수도 있을 것입니다. 2018년에는 큰 사건이 있었죠. 바로 남북정상회담이 4월 27일부터 그 해외만 3차례가 있었습니다. 그때 당시에는 굉장히 남북관계가 화색이 돌았던 때라고 여러분들이 기억을 할 수 있을 것입니다.</p>
+<p class="para">그래서 판문점에서 선언을 하고 또한 평양에서도 만나서 그런 정상들의 회담이 있었다는 것을 뉴스나 언론을 통해서 여러분들이 확인할 수 있었던 것이라고 저는 알고 있습니다. 의외로 북한에 대한 생각을 하면 더 많은 북한 정보가 하나둘 떠오르지 않을까 생각됩니다. 이런 이미지를 보다 쉽게 접근하기 위해서 한번 다음에 확인해보도록 하겠습니다.</p>
+<p class="para">북한에 대한 이미지는 뉴스 약 200만 건을 검색해서 분석 결과를 토대로 북한에 대한 정보를 확인하였습니다. 북한을 키워드로 했을 때 인물, 장소, 기관, 키워드 등의 개최 사이에 어떤 연결관계 연결관계를 네트워크 구조로 네트워크 구조로서 형태로 시각화한 내용이 바로 이 내용이 되겠습니다. 보시는 대로 매우 복잡한 네트워크 구조를 보이고 있죠. 북한과 관련된 단어 중에는 대통령이라든지 미국이라든지 북한, 한반도, 중국, 러시아, 일본, 청와대, 노동당, 외교부, 말레이시아, 김정남, 암살 사건 등 현재까지 있어진 사건에 대한 기사화된 내용을 바탕으로 연결되어 있는 것을 볼 수가 있습니다.</p>
+<p class="para">그러면 인물, 장소, 기관, 키워드에 대해서 그런 연결관계를 알아보도록 하겠습니다. 먼저 인물입니다. 인물에 대한 연결관계를 네트워크 형태로 시각한 내용을 보면 문재인 대통령, 트럼프 미국 대통령, 그리고 김정은 위원장, 그리고 그 외에 시즌핑 아베 같은 인물들과 북한과 연결되어 있는 김정은 위원장과 연결되어 있는 이런 북한의 인물들을 연결관계를 볼 수가 있습니다. 미국 대통령으로 중심을 했을 때는 아까 말씀드렸던 시즌핑 아베, 그리고 미국과 관련된 인물들이 바로 연결되어 있는 것을 볼 수 있습니다.</p>
+<p class="para">다음은 장소에 대한 연결관계를 한번 보겠습니다. 장소에 대한 연결관계를 이렇게 네트워크와 시각하였을 때 가장 눈에 띄는 건 미국, 북한, 한반도가 되겠죠. 그 외 중국, 러시아, 일본 같이 우리나라를 대한 한반도를 둘러싼 그런 관련되어 있는 나라들과 연결이 되었다는 것을 볼 수가 있습니다. 또한 주변에 있는 국과, 그리고 남북한에 있는 주요 시유도, 그리고 강강지 등이 연결되어 있는 것들을 볼 수가 있습니다.</p>
+<p class="para">이렇게 볼 수가 있는데, 무엇보다도 여기서 볼 수 있는 것은 특별한 건 DMZ 개성공단, 그리고 북한하고 직접적으로 접하고 있는 경기도와 강원도. 그리고 북한과 중국과의 경기가 있는 이런 평안북도, 그리고 핵장소, 풍계리, 그리고 양강도도 마찬가지 북한하고 중국하고 연결에 대해 있는 도시들을 연결관계를 통해서 알 수가 있습니다. 다음으로는 기관이 되겠습니다. 기관에 대한 연결관계를 또한 네트워크 형태로 시각한 내용입니다.</p>
+<p class="para">가장 많이 되어 있는 것은 바로 외교부와 노동당을 들 수가 있겠습니다. 이 외교부 같은 경우에는 정상회담 등 정치 외교적인 상황이 있었기 때문에 또한 많은 사건들이 있었다는 것을 의미하기도 합니다. 노동당 같은 경우에는 북한과 관련되어서 국방부 라든지 국정원이라든지 국가안정보장 회의 같은 국가안보실과 관련되어서 지속적인 적대회의 모습을 보였던 기관하고 이렇게 연결되어 있는 것을 볼 수가 있습니다. 또한 여기서 볼 수 있는 것은 북한의 인권과 관련된 내용들이 또한 이렇게 살펴볼 수가 있는 거고, 그리고 이런 식량 계획 같은 내용을 통해서도 북한의 식량 상황들이 좋지 않다라는 것들을 간접적으로도 확인할 수가 있습니다.</p>
+<p class="para">이런 분석을 통해서는 이렇게 분석을 통해서 나온 명제들은 상웅의 남북 교류라든지 통해가 관련되어서 어떤 영향을 많이 미치지 않을까 이렇게 보고 있습니다. 다음은 키워드, 마지막 키워드에 대해서 한건데 이 키워드는 바로 국무장관, 대통령, 그리고 OBS, ICBM과 관련된 내용들이 포함이 되어 있는 것을 좀 알 수가 있습니다. 그리고 거기 보면 위원장 같은 경우에는 김정은 위원장을 또 얘기를 할 수가 있습니다. 그리고 여기서 보면 노동심만과 관련된 내용들, 그리고 암사사건도 아까 전에 얘기는 나왔지만 이런 것들, 그리고 인권 관련된 내용들, 그리고 6.1로 공동선언과 관련된 내용들이 여러 가지 키워드 중심을 했을 때 연결관계가 있었다는 것을 또한 확인할 수가 있겠습니다.</p>
+<p class="para">다음은 키워드를 어떤 추세를 이용해서 트렌드와 한 그런 분석한 결과를 말씀드리겠습니다. 이 트렌드 분석은 주요 언론사 54개소를 바탕으로 해서 정치, 경제, 사회, 문화, 국제, 지역, 스포츠, IT과 등 8개의 대분류로 분류를 한 내용을 바탕으로 해서 집계한 결과를 여러분들이 보고 계십니다. 북한의 키워드의 시계열 분석을 통해서 북한에 대한 언급을 각각 표를 통해서 확인할 수가 있습니다. 최고로 많은 기사가 있었던 2018년도에 많은 기사가 있었습니다.</p>
+<p class="para">이때는 주요 중요한 사건인 남북정상회담이 1차에서 3차까지 수행되었고, 이에 따라서 많은 기사들이 국내여적으로 보도가 됐었다는 것을 확인할 수가 있습니다. 무엇보다 1차와 3차를 거쳐서 어떤 실질적인 협력이 이루어지기 위한 밑바탕의 그림들이 많이 그려졌다. 그래서 이전과 좀 틀리게 어떤 실제 사업으로 연계되는 선언문과 실천 방안이 발표가 되었었죠.</p>
+<p class="para">그러나 북한과 미국의 베트남에서의 정상회담 이후에는 지속적으로 관계가 좋아지지 않고 미지근한 상태로 정체된 상태로 가고 있습니다. 그런 것을 확인할 수 있고, 키워드 트렌드의 전반적인 분석의 형태는 북한에 대해서 많이 언급을 하고 있다. 그래서 기사수가 굉장히 증가하고 있다는 것을 알 수 있습니다. 향후 남북관계의 진전을 통해서 더 많은 이슈가 발생할 수 있지 않을까 판단을 할 수 있습니다.</p>
+<p class="para">유스 기사에 대한 연관어 분석을 통해서 도출한 내용입니다. 북한과 연관된 단어를 대표적으로 몇 개 뽑을 수 있는데 큰 글자일수록 많이 언급이 된 내용입니다. 미국, 한국, 중국, 그리고 탄도 미사일, 최근에 미사일 실험을 하고 있죠. 그리고 지금 회담이 정체가 되고 있는 주요 원인 핵 실험, 핵무기, 이런 것들에 의해서 대북 제재가 지속적으로 이루어지고 있는 것들을 연관어 분석을 통해서 조금씩 알 수가 있습니다.</p>
+<p class="para">그리고 정상회담이 있었다는 것, 동해상에 미사일을 발사했다 라는 것들. 그리고 이 중심이 되고 있는 인물들을 대해서도 이렇게 많은 내용들이 연관어 분석을 통해서 이해할 수 있지 않을까 그렇게 이해할 수가 있습니다. 그리고 이런 것들은 국제적인 경경성이라든지 현재 대북 제재를 통해서 그런 북한의 현실을 또 알 수 있는, 간접적으로 알 수 있지 않을까 이렇게 봅니다.</p>
+<p class="para">그러면 간단하게 몇 가지 기사를 확인해 보도록 하겠습니다. 2010년도부터 몇 가지 신문 내용들을 보겠습니다. 2010년도에 북핵사찰 허용 제한, 이번에는 시간벌기용이다 라는 거고, 2011년도에 북한의 변화, 변화의 모습을 기대하려고 하고 있는데 이것은 북한의 자유를 맡겨야 된다</p>
+<p class="para">라는 것을 얘기하는 거고, 그다음에 2013년도에 많이 다운된 남북 간의 경색이 있었던 이때도 마찬가지 활로를 위해서 유혹자 회담에 나서야 된다라는 내용의 기사가 있습니다. 그리고 통일부에서는 이와 연관돼서 지속적으로 북한에 대해서 알아야 되기 때문에 북한 통일화와는 정보 보탈을 개통을 했다. 그렇게 기사가 나와 있습니다. 한편으로는 2015년도에 위기설도 있었습니다.</p>
+<p class="para">그래서 북한은 분기할까 라는 내용에 대해서 사설이 나오기도 했었고, 그리고 북한 선언이 동해상에서 구조를 함으로써 인원들을 다시 북으로 송환을 했다는 내용도 있습니다. 2017년도에 대표적인 사건, 김정감 피사를 두고 해서 북한과 말레이시아와의 외교적인 대립이 격화되고 있다는 것들을 기사를 통해서 알 수 있겠습니다. 그리고 판문점 선언이 있기 직전에 또한 뭐 좋은 기류가 형성되는 시점이 있기 때문에 완전히 포기했다, 아직도는 아니다. 그런 기사들이 이루어지고 있었고, 1차에서 3차까지 정상회담을 통해서 나온 결과와 북미 정상회담을 통해서 나오는 그런 긍정적인 결과에 따라서 평양 경제 붐이 오나라는 그런 기사들도 나올 정도로 이때까지만 해도 굉장히 좋은 분위기로 나가지 않았을까 하는 겁니다.</p>
+<p class="para">물론 뉴스 기사 분석은 언론의 정확성, 보도성에 의존하다 보니까 보다 정확한 사실을 확인이 쉽지 않다는 단점이 있습니다. 하지만 이런 분석을 통해서 전체적인 흐름에 대해서 파악할 수 있다는 점에서는 굉장히 유용하다고 판단을 하고 있습니다.</p>
+<p class="para">그래서 북한에 대한 이미지는 단순히 좋다, 나쁘다 라는 그런 단편적이고 감성적인 판단에 따른 이미지보다는 다양한 측면에서 직접 확인하고 눈으로 보고 듣고 해야지만 북한에 대한 본인만의 그런 정확한 이미지가 생기어나지 않을까 이렇게 판단이 됩니다. 다음은 북한이 어떻게 북한의 정부가 수립됐는지에 대해서 간단하게 알아보도록 하겠습니다. 북한은 소련과 아주 밀접한 상관관계를 가지고 있었습니다.</p>
+<p class="para">1945년 또 당시에도 마찬가지 그 이후에도 현재까지 이르는 시간동안 물론 소련이 붕괴되고 러시아가 됐지만 그래도 밀접한 상관관계를 역사적으로 우리는 확인을 할 수가 있습니다. 그 첫 번째 단추는 1945년 8월 9일 이후라는 겁니다. 1945년 8월 9일에는 소련은 일본에 대해서 일제에 대해서 선전포고으로 합니다. 결국 소련은 제2차 세계대전에 참전을 하는 그런 계기가 되기도 합니다.</p>
+<p class="para">그래서 일제에 대해서 선전을 포구를 하게 되고 극동전선에서 일본과 대치를 하게 되고 진격을 하기 시작합니다. 그러면 여기에 대해서 간단하게 소련의 진격에 대해서 한번 알아보도록 하겠습니다. 1945년 8월 9일부터 소련군은 한반도를 향하여 진격을 해옵니다. 이 지역, 중국의 현재, 중국의 훈춘 지역까지 훈춘 지역을 통해서 육군로를 이용해서 육군이 내려오게 되고 또한 태평양 쪽에서 또한 해군이 진격을 하게 됩니다.</p>
+<p class="para">8월 11일이 되면 바로 옹진과 나진을 침략을 하게 되는데 여기서 옹기는 선봉, 오늘날의 선봉군을 의미를 합니다. 그리고 소련군이 직접적으로 이 옹기와 나진을 진격을 해오면서 일본군과 직접적인 전투가 이루어지기 시작합니다. 이런 소련군이 직접적으로 한반도에 들어오게 되면 이는 바로 대서 이는 3, 8선 이북 지역에 소련의 사회주의 정권 수립에 아주 큰 영향을 미치는 중요한 사건으로서 자리 잡게 됩니다. 8월 11일이 되면 소련의 해군 보병여단은 옹기를 옹기에 상륙작전을 피게 됩니다.</p>
+<p class="para">그리고 그 다음에 12일에는 그 옆에 있는 북쪽에 있는 라진까지 모두 점령을 하게 됩니다. 이로써 힘을 받은 소련군은 바로 청진까지 내려가게 됩니다. 16일 날 청진으로 상륙작전을 치게 됨으로써 이 지역을 또한 세력을 확대하게 됩니다. 이어서 21일에는 원산이죠.</p>
+<p class="para">강원도에 원산까지 상륙을 하게 되고, 그리고 이어서 25일까지 평양에 입성을 하게 됩니다. 그 사이에 함흥을 거쳐서 가게 되는데, 이 함흥의 당시 한반도에 들어왔던 제25군의 사령관이죠. 사령관인 치스티아코프가 함흥의 25일에 입성을 하게 됩니다. 이러한 25일까지의 일량의 과정 중에서 일본은 8월 14일에 항복을 하게 되고, 그리고 8월 22일에는 일본이 소련군에게 항복을 하게 됩니다.</p>
+<p class="para">공식적으로 항복을 하는 사건이 발생하게 되고, 이때부터 일본군은 철수를 하게 되는 거죠. 이 지역에 해당하는 이북 지역에 해당하는 인원들이, 일본군이 철수를 하는 사건이 발생하게 됩니다. 그리고 8월 말이 되는 순간, 소련군은 전 지역을 북이 38도선, 38도선 2선이죠. 이 선에 이북 지역을 모두 점령을 하게 됩니다.</p>
+<p class="para">소련군은 점령지역에 대해서 행정권이 당시 일본에 있었죠. 일본에 있었던 행정권을 가져오려고 하는 이양 조치를 실시하게 됩니다. 처음에 점령을 하고 났을 때는 일본군의 무장회지와 행정권에 대한 교섭을 하게 되었습니다. 이때는 소련군이 처음에 일본 측의 행정권을 그대로 행사하겠습니다.</p>
+<p class="para">당시에선 도지사하고 비서들에게 행정권을 맡기게 되는데, 그러나, 하몽 지역에서, 하몽 지역에서 건국준비위원회와 항남, 함경남도 공산주의자 협의회의의 대표들이 구성이 되어서, 소련군 제25군 사령관인 치스티아코프에게 갑니다. 그래서, 우리가 행정권을 달라고 얘기합니다. 그래서, 결국은 이 건국준비위원회와 항남 공산주의자 협의회의의의 대표들이 발족되면서, 항우 이것은 하몽의 인민위원회로 변경이 되는데 인민위원회로 변경되는 그 시점에서 쓰르는 행정권을 그대로 허가를 하게 됩니다. 이러한 행정권이 이양되는 사건은 바로 당시 조선인들의 자치능력을 또한 인정해주는 사건이라고 얘기를 하기도 합니다.</p>
+<p class="para">물론 하몽뿐만 아니라 원산에서도 소련군은 원산인민위원회의 행정권을 이양합니다. 그리고 경상남도의 전 지역에 대해서는 3개시 16개군, 3개시 16개군, 129개의 인민위원회가 조직되어서 행정권을 장악하게 됩니다. 1945년 8월 25일에 평양에 입성한 소련군은 또한 당시의 평남건국준비위원회와 또한 행정권 이양에 대해서 논의를 했습니다. 평남건국준비위원회와 이런 논의를 한 결과 평남인민정치위원회로 조직이 개편되고 됩니다.</p>
+<p class="para">이때부터 평남인민정치위원회가 활동을 하는 것이고 이 인민정치위원회가 향후에는 인민위원회로 개칭이 됩니다. 개칭이 되면서 실질적인 중앙정권으로서 역할을 실시를 하게 됩니다. 그리고 이 38도선 이북지역에 대한 신민지 유산을 모두 재정비하는 사건이 일어나게 되는 겁니다. 1945년 10월 8일에 평양에서는 중요한 사건이 발생합니다.</p>
+<p class="para">바로 5도, 38선 이북지역에 5도의 인민위원회 연합회이라는 것이 평양에서 개최가 되고 11월이 되면 5도 행정국이 창설이 됩니다. 창설이 되면서 5도 행정국이 중앙의 행정기구로서 활동을 역할을 수행하게 됩니다. 그러나 5도 행정국이 설치가 되며도 불구하고 5도 행정국은 각도의 인민위원회로 구성이 되어있는데 인민위원회의 상부기관이기도 하지만 실적으로 행정기관이기 때문에 어떤 정치적인 행사, 권력의 행사에 있었을 때는 어떤 후원적 성격만 했지 어떤 권력을 행사하기에는 매우 미약했습니다. 그래서 그 당시에는 유일한 정치 조직이었지만 힘이 각도의 인민위원회에 있었다는 거죠.</p>
+<p class="para">이때 당시 의장은 조만식 선생님이었습니다. 이 인민위원회는 권구군동의 아주 큰 흐름 속에서 소련이라든지 소련군 그리고 공산주의자 영향력이 지속적으로 커가는 상황 속에 놓여지게 됩니다. 이 당시에 5도 행정국이 설치가 되거나 인민위원회에서는 공산주의자와 민족주의자, 자강의 한쪽으로 치우친 게 아니라 균형적인 관계를 유지하고 있었습니다. 그러나 이렇게 세력이 커지면서 김일성이라는 새로운 인물들이 나오면서 점차 공산주의와 사회주의와 되는 과정을 겪게 됩니다.</p>
+<p class="para">다시 돌아가서 인민위원회는 당시에 실질적인 권력을 행사하는 기구로서 보안대의 경찰 업무를 시작했던 보안대 업무 굉장히 센 권력을 가지고 있었던 보안대 업무와 세금 징수, 토지 분할 여러 가지 주한 업무에 대해서 담당을 하게 되었습니다.</p></section>
+<section class="panel"><h2>셀프 퀴즈 (시험형)</h2>
+<div id="quizBox"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+  <button onclick="gradeQuiz()">채점하기</button>
+  <button onclick="resetQuiz()">다시풀기</button>
+</div>
+<p id="quizResult" class="meta" style="margin-top:10px"></p>
+</section>
+<section class="panel"><h2>내 학습 메모</h2><textarea id="notes" placeholder="핵심 정리, 헷갈리는 포인트, 시험 전 체크사항"></textarea><p class="meta">자동 저장됨 (브라우저 로컬 저장소)</p></section>
+</div></div>
+<script>
+const reader = document.getElementById('reader'); const original = reader.innerHTML; const notes = document.getElementById('notes');
+notes.value = localStorage.getItem('lecture_notes_1w2_jun') || ''; notes.addEventListener('input', ()=>localStorage.setItem('lecture_notes_1w2_jun', notes.value));
+function setFont(v){document.documentElement.style.setProperty('--font', v+'px')} function setLine(v){document.documentElement.style.setProperty('--line', v)}
+function toggleTheme(){document.body.classList.toggle('light')} function toggleFocus(){document.querySelectorAll('.controls').forEach(el=>el.style.display=(el.style.display==='none'?'':'none'))}
+function clearMarks(){reader.innerHTML = original;}
+function markTerm(term){ if(!term) return; const esc = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); const re = new RegExp(esc,'gi'); reader.innerHTML = reader.innerHTML.replace(/<mark>|<\/mark>/g,''); reader.innerHTML = reader.innerHTML.replace(re, m=>`<mark>${m}</mark>`);} 
+function runSearch(){markTerm(document.getElementById('search').value.trim())}
+
+const quizData=[{"q": "북한 이해 단원의 핵심 학습목표로 가장 적절한 것은?", "opts": ["북한의 군사력만 분석한다", "지리적 관점에서 북한의 자연·인문환경 특징을 이해한다", "북한 경제지표만 암기한다", "남북관계사 연표만 외운다"], "a": 1, "e": "강의 초반 학습목표에서 지리적 관점 + 자연/인문환경 이해를 명시."}, {"q": "강의에서 북한 이미지 분석에 활용한 데이터는?", "opts": ["정부 백서 10년치", "위성영상 데이터", "뉴스 약 200만 건 분석", "SNS 댓글만 분석"], "a": 2, "e": "뉴스 약 200만 건을 검색·분석했다고 설명함."}, {"q": "네트워크 분석 분류에 포함되지 않은 것은?", "opts": ["인물", "장소", "기관", "기후대"], "a": 3, "e": "강의 분류는 인물/장소/기관/키워드."}, {"q": "북한 키워드 기사량이 최고로 많았다고 제시된 해는?", "opts": ["2010년", "2013년", "2018년", "2022년"], "a": 2, "e": "2018년에 남북정상회담 이슈로 언급량 급증."}, {"q": "1945년 8월 9일 사건의 의미로 옳은 것은?", "opts": ["일본의 항복 선언일", "소련의 대일 선전포고 및 참전 계기", "북한 정부 수립일", "판문점 선언일"], "a": 1, "e": "소련이 일본에 선전포고하고 극동전선 참전."}, {"q": "소련군이 8월 11일 상륙작전을 벌인 지역은?", "opts": ["원산·평양", "옹기(선봉)·나진", "청진·함흥", "개성·해주"], "a": 1, "e": "강의에서 옹기·나진 진격을 명시."}, {"q": "초기 행정권 이양과 직접 연관된 조직으로 가장 적절한 것은?", "opts": ["조선총독부", "유엔군 사령부", "건국준비위원회 및 인민위원회", "대한민국 임시정부"], "a": 2, "e": "행정권 이양 과정에서 건준/인민위원회가 핵심으로 등장."}, {"q": "1945년 10~11월 평양에서의 흐름으로 맞는 것은?", "opts": ["5도 연합회 개최 후 5도 행정국 창설", "즉시 단일헌법 제정", "남북 총선거 실시", "미소 공동정부 성립"], "a": 0, "e": "10월 5도 연합회, 11월 5도 행정국 순으로 설명."}, {"q": "강의가 강조한 북한 이미지 형성 방식으로 가장 적절한 것은?", "opts": ["감정적 호불호 중심 판단", "단일 기사만 보고 판단", "다양한 자료를 다각도로 확인해 판단", "SNS 반응만으로 판단"], "a": 2, "e": "단편적 감성 판단보다 다각적 확인이 중요하다고 결론."}, {"q": "5도 행정국의 한계로 제시된 것은?", "opts": ["행정기능 부재", "외교권 독점", "정치권력 행사 능력이 미약", "군사조직 해체 실패"], "a": 2, "e": "행정기관 성격이 강해 정치권력 행사엔 한계가 있다고 설명."}];
+const quizBox=document.getElementById('quizBox');
+function renderQuiz(){
+  if(!quizData.length){ quizBox.innerHTML='<p class="meta">아직 등록된 문제가 없습니다.</p>'; document.getElementById('quizResult').textContent=''; return; }
+  quizBox.innerHTML=quizData.map((x,i)=>`<div class="quiz-item" id="qi${i}"><div class="q">Q${i+1}. ${x.q}</div>${x.opts.map((o,k)=>`<label><input type="radio" name="q${i}" value="${k}"> ${o}</label>`).join('')}<div class="explain" id="ex${i}"></div></div>`).join('');
+  document.getElementById('quizResult').textContent='';
+}
+function gradeQuiz(){
+  if(!quizData.length) return;
+  let score=0;
+  quizData.forEach((x,i)=>{
+    const box=document.getElementById(`qi${i}`); const ex=document.getElementById(`ex${i}`);
+    box.classList.remove('correct','wrong');
+    const picked=document.querySelector(`input[name="q${i}"]:checked`);
+    const ok=picked && Number(picked.value)===x.a;
+    if(ok){score++; box.classList.add('correct');} else {box.classList.add('wrong');}
+    ex.style.display='block'; ex.textContent=`정답: ${x.opts[x.a]} / 해설: ${x.e}`;
+  });
+  const pct=Math.round(score/quizData.length*100);
+  document.getElementById('quizResult').textContent=`점수: ${score}/${quizData.length} (${pct}%)`;
+}
+function resetQuiz(){renderQuiz();}
+renderQuiz();
+</script></body></html>
