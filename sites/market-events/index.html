@@ -3,23 +3,26 @@
 <meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/>
 <title>이번 주 핵심 일정</title>
 <style>
-body{margin:0;background:#0b1020;color:#edf2ff;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif}
-.wrap{max-width:980px;margin:0 auto;padding:22px}
-.card{background:#121a31;border:1px solid #2c3f7a;border-radius:14px;padding:14px 16px;margin:12px 0}
-h1,h2{margin:.2rem 0 .6rem 0} ul{margin:0;padding-left:18px} li{margin:7px 0;line-height:1.45}
-.highlights{list-style:none;padding-left:0}
+:root{--bg:#0a0f1e;--panel:#111a33;--line:#23376e;--line2:#1a2c5b;--text:#ecf2ff;--muted:#9fb1df;--chip:#1c2f63;--accent:#74a2ff}
+body{margin:0;background:radial-gradient(1200px 600px at 80% -20%,#1a2c5a55,transparent),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:20px}
+.card{background:var(--panel);border:1px solid var(--line2);border-radius:16px;padding:14px 16px;margin:10px 0;box-shadow:0 8px 28px rgba(0,0,0,.22)}
+h1{margin:.1rem 0 .35rem 0;font-size:1.55rem} h2{margin:.1rem 0 .7rem 0;font-size:1.08rem}
+ul{margin:0;padding-left:18px} li{margin:7px 0;line-height:1.45}
+.highlights{list-style:none;padding-left:0;display:grid;gap:8px}
 .highlights li{margin:0}
-.tag{background:#263a7a;border:1px solid #4f6fcb;color:#d8e4ff;padding:2px 8px;border-radius:999px;font-size:.76rem;white-space:nowrap}
-.highlight-item{display:grid;grid-template-columns:62px 1fr auto;gap:10px;align-items:center;padding:10px 12px;margin:8px 0;border:1px solid #2f437f;border-radius:12px;background:linear-gradient(90deg, rgba(255,230,70,.16) 0 6px, rgba(255,255,255,.02) 6px 100%)}
-.hl-date{font-weight:800;color:#ffe66b}
-.hl-main{font-weight:600}
-.hl-time{margin-top:3px;color:#9fb0e8;font-size:.84rem;font-weight:500}
-.meta{color:#9fb0e8;font-size:.9rem} .warn{border-color:#7d5f1f}
+.tag{background:var(--chip);border:1px solid #3857a7;color:#cfe0ff;padding:3px 9px;border-radius:999px;font-size:.76rem;white-space:nowrap}
+.highlight-item{display:grid;grid-template-columns:72px 1fr auto;gap:10px;align-items:center;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#0f1730}
+.highlight-item:hover{border-color:#3d5fb5}
+.hl-date{font-weight:800;color:#ffd86b;font-size:.98rem}
+.hl-main{font-weight:700;letter-spacing:-.1px}
+.hl-time{margin-top:2px;color:var(--muted);font-size:.82rem;font-weight:500}
+.meta{color:var(--muted);font-size:.9rem}.warn{border-color:#7d5f1f}
 a{color:#d7e5ff}
 </style></head>
 <body><div class='wrap'>
 <h1>이번 주 핵심 일정</h1>
-<div class='meta'>업데이트: 2026-03-08 12:28 KST · 기간: 03/08 ~ 03/14</div>
+<div class='meta'>업데이트: 2026-03-08 12:32 KST · 기간: 03/08 ~ 03/14</div>
 
 <section class='card'>
 <h2>이번 주 영향 포인트 3가지</h2>
@@ -28,7 +31,7 @@ a{color:#d7e5ff}
 
 <section class='card'>
 <h2>이번 주 진짜 중요한 일정만</h2>
-<ul class='highlights'><li class='highlight-item'><div class='hl-date'>03/12(목)</div><div class='hl-main'>미국 Core CPI<div class='hl-time'>16:30 KST</div></div><span class='tag'>매크로</span></li><li class='highlight-item'><div class='hl-date'>03/12(목)</div><div class='hl-main'>미국 CPI<div class='hl-time'>16:30 KST</div></div><span class='tag'>매크로</span></li><li class='highlight-item'><div class='hl-date'>03/12(목)</div><div class='hl-main'>FOMC 금리결정<div class='hl-time'>16:30 KST</div></div><span class='tag'>연준</span></li><li class='highlight-item'><div class='hl-date'>03/12(목)</div><div class='hl-main'>미국 CPI<div class='hl-time'>19:00 KST</div></div><span class='tag'>매크로</span></li><li class='highlight-item'><div class='hl-date'>03/13(금)</div><div class='hl-main'>FOMC 금리결정<div class='hl-time'>19:00 KST</div></div><span class='tag'>연준</span></li><li class='highlight-item'><div class='hl-date'>03/14(토)</div><div class='hl-main'>미국 JOLTS 구인건수<div class='hl-time'>18:00 KST</div></div><span class='tag'>고용</span></li></ul>
+<ul class='highlights'><li class='highlight-item'><div class='hl-date'>03/12(목)</div><div class='hl-main'>미국 Core CPI<div class='hl-time'>16:30 KST</div></div><span class='tag'>매크로</span></li><li class='highlight-item'><div class='hl-date'>03/12(목)</div><div class='hl-main'>미국 CPI<div class='hl-time'>16:30 KST</div></div><span class='tag'>매크로</span></li><li class='highlight-item'><div class='hl-date'>03/12(목)</div><div class='hl-main'>FOMC 회의(1일차)<div class='hl-time'>16:30 KST</div></div><span class='tag'>연준</span></li><li class='highlight-item'><div class='hl-date'>03/13(금)</div><div class='hl-main'>FOMC 금리결정/기자회견<div class='hl-time'>19:00 KST</div></div><span class='tag'>연준</span></li><li class='highlight-item'><div class='hl-date'>03/14(토)</div><div class='hl-main'>미국 JOLTS 구인건수<div class='hl-time'>18:00 KST</div></div><span class='tag'>고용</span></li></ul>
 </section>
 
 <section class='card'>
