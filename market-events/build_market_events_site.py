@@ -4,10 +4,11 @@ import re
 import ssl
 import json
 import urllib.request
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone, timedelta, time
 from pathlib import Path
 
 KST = timezone(timedelta(hours=9))
+UTC = timezone.utc
 
 NASDAQ_EARNINGS_API = "https://api.nasdaq.com/api/calendar/earnings?date={date}"
 NASDAQ_ECON_API = "https://api.nasdaq.com/api/calendar/economicevents?date={date}"
@@ -48,6 +49,29 @@ def parse_market_cap(s: str) -> int:
         return int(float(s))
     except Exception:
         return 0
+
+
+def weekday_kr(d):
+    return ["월", "화", "수", "목", "금", "토", "일"][d.weekday()]
+
+
+def gmt_to_kst_label(base_date, gmt_str: str) -> tuple:
+    s = (gmt_str or "").strip()
+    if not re.match(r"^\d{1,2}:\d{2}$", s):
+        return base_date, "시간 미정"
+    hh, mm = map(int, s.split(':'))
+    dt_utc = datetime.combine(base_date, time(hh, mm), tzinfo=UTC)
+    dt_kst = dt_utc.astimezone(KST)
+    return dt_kst.date(), dt_kst.strftime('%H:%M KST')
+
+
+def earnings_time_label(raw: str) -> str:
+    x = (raw or '').strip().lower()
+    return {
+        'time-before-market': '장전',
+        'time-after-hours': '장후',
+        'time-during-market': '장중',
+    }.get(x, '시간 미정')
 
 
 def parse_us_dates(text: str):
@@ -110,16 +134,17 @@ def build():
                 country = (r.get('country') or '').lower()
                 name = (r.get('eventName') or '')
                 low = name.lower()
+                event_date, tlabel = gmt_to_kst_label(d, r.get('gmt', ''))
                 if country not in ('united states', 'us', 'usa'):
                     continue
                 if ('consumer price' in low) or (re.search(r'\bcpi\b', low)):
-                    weekly_events.append((d, f"미국 {name}", "매크로"))
+                    weekly_events.append((event_date, f"미국 {name}", "매크로", tlabel))
                 elif ('producer price' in low) or (re.search(r'\bppi\b', low)):
-                    weekly_events.append((d, f"미국 {name}", "매크로"))
+                    weekly_events.append((event_date, f"미국 {name}", "매크로", tlabel))
                 elif ('jolts' in low) or ('job openings' in low):
-                    weekly_events.append((d, f"미국 {name}", "고용"))
+                    weekly_events.append((event_date, f"미국 {name}", "고용", tlabel))
                 elif ('interest rate decision' in low) or ('fomc' in low) or ('fed' in low and 'rate' in low):
-                    weekly_events.append((d, f"미국 {name}", "연준"))
+                    weekly_events.append((event_date, f"미국 {name}", "연준", tlabel))
         except Exception as e:
             errs.append(f"경제지표 수집 실패({ds}): {e}")
 
@@ -129,7 +154,7 @@ def build():
         if re.match(r"^20\d{2}-\d{2}-\d{2}$", ds):
             d = datetime.strptime(ds, "%Y-%m-%d").date()
             if today <= d <= week_end:
-                weekly_events.append((d, ev["title"], ev.get("tag", "중요")))
+                weekly_events.append((d, ev["title"], ev.get("tag", "중요"), "시간 미정"))
 
     weekly_events.sort(key=lambda x: x[0])
 
@@ -148,7 +173,7 @@ def build():
 
     # '진짜 중요한 것'만: 중복 제거 + 핵심 이벤트명 압축
     important_tags = {"매크로", "연준", "정책", "고용"}
-    raw_important = [(d, t, g) for d, t, g in weekly_events if g in important_tags]
+    raw_important = [(d, t, g, tm) for d, t, g, tm in weekly_events if g in important_tags]
     if not raw_important:
         raw_important = weekly_events[:5]
 
@@ -170,29 +195,29 @@ def build():
 
     seen = set()
     important_events = []
-    for d, t, g in sorted(raw_important, key=lambda x: x[0]):
+    for d, t, g, tm in sorted(raw_important, key=lambda x: x[0]):
         label = normalize_event_name(t)
-        key = (d.isoformat(), label, g)
+        key = (d.isoformat(), label, g, tm)
         if key in seen:
             continue
         seen.add(key)
-        important_events.append((d, label, g))
+        important_events.append((d, label, g, tm))
 
     # FOMC가 연속 2일로 잡히면 1일차/결정일로 표시
     for i in range(len(important_events) - 1):
-        d1, t1, g1 = important_events[i]
-        d2, t2, g2 = important_events[i + 1]
+        d1, t1, g1, tm1 = important_events[i]
+        d2, t2, g2, tm2 = important_events[i + 1]
         if g1 == '연준' and g2 == '연준' and t1 == 'FOMC 금리결정' and t2 == 'FOMC 금리결정' and (d2 - d1).days == 1:
-            important_events[i] = (d1, 'FOMC 회의(1일차)', g1)
-            important_events[i + 1] = (d2, 'FOMC 금리결정/기자회견', g2)
+            important_events[i] = (d1, 'FOMC 회의(1일차)', g1, tm1)
+            important_events[i + 1] = (d2, 'FOMC 금리결정/기자회견', g2, tm2)
 
     # 너무 길면 상위 6개만
     important_events = important_events[:6]
 
     highlight_items = []
-    for d, t, g in important_events:
+    for d, t, g, tm in important_events:
         highlight_items.append(
-            f"<li class='highlight-item'><div class='hl-date'>{d.strftime('%m/%d')}</div><div class='hl-main'>{t}</div><span class='tag'>{g}</span></li>"
+            f"<li class='highlight-item'><div class='hl-date'>{d.strftime('%m/%d')}({weekday_kr(d)})</div><div class='hl-main'>{t}<div class='hl-time'>{tm}</div></div><span class='tag'>{g}</span></li>"
         )
     highlights_html = ''.join(highlight_items) if highlight_items else "<li class='meta'>이번 주 확정된 초중요 이벤트 없음</li>"
 
@@ -206,10 +231,10 @@ def build():
             continue
         top = rows[:3]
         lis = ''.join(
-            f"<li><strong>{r.get('symbol','')}</strong> {r.get('name','')} <span class='meta'>(예상EPS {r.get('epsForecast','-')} · {r.get('time','')})</span></li>"
+            f"<li><strong>{r.get('symbol','')}</strong> {r.get('name','')} <span class='meta'>(예상EPS {r.get('epsForecast','-')} · {earnings_time_label(r.get('time',''))})</span></li>"
             for r in top
         )
-        earnings_html_parts.append(f"<li><strong>{d.strftime('%m/%d')}</strong><ul>{lis}</ul></li>")
+        earnings_html_parts.append(f"<li><strong>{d.strftime('%m/%d')}({weekday_kr(d)})</strong><ul>{lis}</ul></li>")
     earnings_week_html = ''.join(earnings_html_parts) or "<li class='meta'>이번 주 수집된 미국 실적 일정 없음</li>"
 
     warn_html = ""
@@ -231,6 +256,7 @@ h1,h2{{margin:.2rem 0 .6rem 0}} ul{{margin:0;padding-left:18px}} li{{margin:7px 
 .highlight-item{{display:grid;grid-template-columns:62px 1fr auto;gap:10px;align-items:center;padding:10px 12px;margin:8px 0;border:1px solid #2f437f;border-radius:12px;background:linear-gradient(90deg, rgba(255,230,70,.16) 0 6px, rgba(255,255,255,.02) 6px 100%)}}
 .hl-date{{font-weight:800;color:#ffe66b}}
 .hl-main{{font-weight:600}}
+.hl-time{{margin-top:3px;color:#9fb0e8;font-size:.84rem;font-weight:500}}
 .meta{{color:#9fb0e8;font-size:.9rem}} .warn{{border-color:#7d5f1f}}
 a{{color:#d7e5ff}}
 </style></head>
