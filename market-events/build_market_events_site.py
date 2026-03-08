@@ -2,6 +2,7 @@
 from __future__ import annotations
 import re
 import ssl
+import json
 import urllib.request
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -13,6 +14,7 @@ SOURCES = {
     "cpi": "https://www.bls.gov/schedule/news_release/cpi.htm",
     "ppi": "https://www.bls.gov/schedule/news_release/ppi.htm",
 }
+NASDAQ_EARNINGS_API = "https://api.nasdaq.com/api/calendar/earnings?date={date}"
 
 # YYYY-MM-DD 형식이면 주간 목록에 자동 포함
 MANUAL_EVENTS = [
@@ -25,6 +27,31 @@ def fetch_text(url: str) -> str:
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, context=ctx, timeout=20) as r:
         return r.read().decode("utf-8", errors="ignore")
+
+
+def fetch_json(url: str) -> dict:
+    ctx = ssl.create_default_context()
+    req = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "application/json, text/plain, */*",
+            "Origin": "https://www.nasdaq.com",
+            "Referer": "https://www.nasdaq.com/",
+        },
+    )
+    with urllib.request.urlopen(req, context=ctx, timeout=20) as r:
+        return json.loads(r.read().decode("utf-8", errors="ignore"))
+
+
+def parse_market_cap(s: str) -> int:
+    if not s:
+        return 0
+    s = s.replace("$", "").replace(",", "").strip()
+    try:
+        return int(float(s))
+    except Exception:
+        return 0
 
 
 def parse_us_dates(text: str):
@@ -62,6 +89,7 @@ def build():
 
     errs = []
     cpi, ppi, fomc = [], [], []
+    earnings_by_day = {}
 
     try:
         cpi = parse_us_dates(fetch_text(SOURCES['cpi']))
@@ -75,6 +103,19 @@ def build():
         fomc = parse_fomc_dates(fetch_text(SOURCES['fomc']))
     except Exception as e:
         errs.append(f"FOMC 수집 실패: {e}")
+
+    # 이번 주 미국 실적 발표(시총 큰 순) 수집
+    for i in range(7):
+        d = today + timedelta(days=i)
+        ds = d.strftime('%Y-%m-%d')
+        try:
+            obj = fetch_json(NASDAQ_EARNINGS_API.format(date=ds))
+            rows = (obj.get('data') or {}).get('rows') or []
+            rows_sorted = sorted(rows, key=lambda r: parse_market_cap(r.get('marketCap', '')), reverse=True)
+            earnings_by_day[d] = rows_sorted[:6]
+        except Exception as e:
+            errs.append(f"실적 일정 수집 실패({ds}): {e}")
+            earnings_by_day[d] = []
 
     weekly_events = []
     for d in cpi:
@@ -122,6 +163,21 @@ def build():
     highlights_html = ''.join(highlight_items) if highlight_items else "<li class='meta'>이번 주 확정된 초중요 이벤트 없음</li>"
 
     top_html = ''.join(f"<li>{p}</li>" for p in top_points)
+
+    earnings_html_parts = []
+    for i in range(7):
+        d = today + timedelta(days=i)
+        rows = earnings_by_day.get(d, [])
+        if not rows:
+            continue
+        top = rows[:3]
+        lis = ''.join(
+            f"<li><strong>{r.get('symbol','')}</strong> {r.get('name','')} <span class='meta'>(예상EPS {r.get('epsForecast','-')} · {r.get('time','')})</span></li>"
+            for r in top
+        )
+        earnings_html_parts.append(f"<li><strong>{d.strftime('%m/%d')}</strong><ul>{lis}</ul></li>")
+    earnings_week_html = ''.join(earnings_html_parts) or "<li class='meta'>이번 주 수집된 미국 실적 일정 없음</li>"
+
     warn_html = ""
     if errs:
         warn_html = "<section class='card warn'><h2>수집 경고</h2><ul>" + ''.join(f"<li>{e}</li>" for e in errs) + "</ul></section>"
@@ -152,6 +208,11 @@ a{{color:#d7e5ff}}
 <section class='card'>
 <h2>이번 주 진짜 중요한 일정만</h2>
 <ul>{highlights_html}</ul>
+</section>
+
+<section class='card'>
+<h2>이번 주 미국 실적발표(시총 상위)</h2>
+<ul>{earnings_week_html}</ul>
 </section>
 
 <section class='card'>
