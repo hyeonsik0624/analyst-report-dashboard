@@ -116,6 +116,8 @@ def build():
                     weekly_events.append((d, f"미국 {name}", "매크로"))
                 elif ('producer price' in low) or (re.search(r'\bppi\b', low)):
                     weekly_events.append((d, f"미국 {name}", "매크로"))
+                elif ('jolts' in low) or ('job openings' in low):
+                    weekly_events.append((d, f"미국 {name}", "고용"))
                 elif ('interest rate decision' in low) or ('fomc' in low) or ('fed' in low and 'rate' in low):
                     weekly_events.append((d, f"미국 {name}", "연준"))
         except Exception as e:
@@ -137,13 +139,15 @@ def build():
         top_points.append("미국 물가지표(CPI/PPI) 발표 주간")
     if any(x[2] == "연준" for x in weekly_events):
         top_points.append("연준(FOMC) 이벤트 체크 필요")
+    if any(x[2] == "고용" for x in weekly_events):
+        top_points.append("미국 고용(JOLTS) 지표 체크")
     top_points.append("미국 주요 기업 실적 발표 일정(장전/장후) 확인")
     while len(top_points) < 3:
         top_points.append("국내 공시(DART/KIND) 및 수급 변화 점검")
     top_points = top_points[:3]
 
     # '진짜 중요한 것'만: 중복 제거 + 핵심 이벤트명 압축
-    important_tags = {"매크로", "연준", "정책"}
+    important_tags = {"매크로", "연준", "정책", "고용"}
     raw_important = [(d, t, g) for d, t, g in weekly_events if g in important_tags]
     if not raw_important:
         raw_important = weekly_events[:5]
@@ -160,6 +164,8 @@ def build():
             return '미국 PPI'
         if 'fomc' in low or 'interest rate decision' in low:
             return 'FOMC 금리결정'
+        if 'jolts' in low or 'job openings' in low:
+            return '미국 JOLTS 구인건수'
         return name
 
     seen = set()
