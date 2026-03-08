@@ -142,16 +142,43 @@ def build():
         top_points.append("국내 공시(DART/KIND) 및 수급 변화 점검")
     top_points = top_points[:3]
 
-    # 형광펜 느낌으로 '진짜 중요한 것'만 추림
+    # '진짜 중요한 것'만: 중복 제거 + 핵심 이벤트명 압축
     important_tags = {"매크로", "연준", "정책"}
-    important_events = [(d, t, g) for d, t, g in weekly_events if g in important_tags][:7]
-    if not important_events:
-        important_events = weekly_events[:5]
+    raw_important = [(d, t, g) for d, t, g in weekly_events if g in important_tags]
+    if not raw_important:
+        raw_important = weekly_events[:5]
+
+    def normalize_event_name(name: str) -> str:
+        low = name.lower()
+        if 'core cpi' in low:
+            return '미국 Core CPI'
+        if 'cpi' in low:
+            return '미국 CPI'
+        if 'core ppi' in low:
+            return '미국 Core PPI'
+        if 'ppi' in low:
+            return '미국 PPI'
+        if 'fomc' in low or 'interest rate decision' in low:
+            return 'FOMC 금리결정'
+        return name
+
+    seen = set()
+    important_events = []
+    for d, t, g in sorted(raw_important, key=lambda x: x[0]):
+        label = normalize_event_name(t)
+        key = (d.isoformat(), label, g)
+        if key in seen:
+            continue
+        seen.add(key)
+        important_events.append((d, label, g))
+
+    # 너무 길면 상위 6개만
+    important_events = important_events[:6]
 
     highlight_items = []
     for d, t, g in important_events:
         highlight_items.append(
-            f"<li class='highlight'><strong>{d.strftime('%m/%d')}</strong> · {t} <span class='tag'>{g}</span></li>"
+            f"<li class='highlight-item'><div class='hl-date'>{d.strftime('%m/%d')}</div><div class='hl-main'>{t}</div><span class='tag'>{g}</span></li>"
         )
     highlights_html = ''.join(highlight_items) if highlight_items else "<li class='meta'>이번 주 확정된 초중요 이벤트 없음</li>"
 
@@ -184,8 +211,12 @@ body{{margin:0;background:#0b1020;color:#edf2ff;font-family:-apple-system,BlinkM
 .wrap{{max-width:980px;margin:0 auto;padding:22px}}
 .card{{background:#121a31;border:1px solid #2c3f7a;border-radius:14px;padding:14px 16px;margin:12px 0}}
 h1,h2{{margin:.2rem 0 .6rem 0}} ul{{margin:0;padding-left:18px}} li{{margin:7px 0;line-height:1.45}}
-.tag{{background:#334b99;border:1px solid #5673d4;color:#d8e4ff;padding:2px 7px;border-radius:999px;font-size:.78rem}}
-.highlight{{background:linear-gradient(transparent 45%, rgba(255,235,59,.45) 45%); padding:2px 0}}
+.highlights{{list-style:none;padding-left:0}}
+.highlights li{{margin:0}}
+.tag{{background:#263a7a;border:1px solid #4f6fcb;color:#d8e4ff;padding:2px 8px;border-radius:999px;font-size:.76rem;white-space:nowrap}}
+.highlight-item{{display:grid;grid-template-columns:62px 1fr auto;gap:10px;align-items:center;padding:10px 12px;margin:8px 0;border:1px solid #2f437f;border-radius:12px;background:linear-gradient(90deg, rgba(255,230,70,.16) 0 6px, rgba(255,255,255,.02) 6px 100%)}}
+.hl-date{{font-weight:800;color:#ffe66b}}
+.hl-main{{font-weight:600}}
 .meta{{color:#9fb0e8;font-size:.9rem}} .warn{{border-color:#7d5f1f}}
 a{{color:#d7e5ff}}
 </style></head>
@@ -200,7 +231,7 @@ a{{color:#d7e5ff}}
 
 <section class='card'>
 <h2>이번 주 진짜 중요한 일정만</h2>
-<ul>{highlights_html}</ul>
+<ul class='highlights'>{highlights_html}</ul>
 </section>
 
 <section class='card'>
