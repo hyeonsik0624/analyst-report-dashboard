@@ -5,7 +5,6 @@ import ssl
 import urllib.request
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-from collections import defaultdict
 
 KST = timezone(timedelta(hours=9))
 
@@ -109,20 +108,18 @@ def build():
         top_points.append("국내 공시(DART/KIND) 및 수급 변화 점검")
     top_points = top_points[:3]
 
-    by_day = defaultdict(list)
-    for d, title, tag in weekly_events:
-        by_day[d].append((title, tag))
+    # 형광펜 느낌으로 '진짜 중요한 것'만 추림
+    important_tags = {"매크로", "연준", "정책"}
+    important_events = [(d, t, g) for d, t, g in weekly_events if g in important_tags][:7]
+    if not important_events:
+        important_events = weekly_events[:5]
 
-    day_cards = []
-    weekday_kr = ["월", "화", "수", "목", "금", "토", "일"]
-    for i in range(7):
-        d = today + timedelta(days=i)
-        items = by_day.get(d, [])
-        if items:
-            lis = ''.join(f"<li>{t} <span class='tag'>{g}</span></li>" for t, g in items)
-        else:
-            lis = "<li class='meta'>확정된 핵심 이벤트 없음 (실적/공시는 상시 체크)</li>"
-        day_cards.append(f"<section class='card'><h2>{d.strftime('%m/%d')}({weekday_kr[d.weekday()]})</h2><ul>{lis}</ul></section>")
+    highlight_items = []
+    for d, t, g in important_events:
+        highlight_items.append(
+            f"<li class='highlight'><strong>{d.strftime('%m/%d')}</strong> · {t} <span class='tag'>{g}</span></li>"
+        )
+    highlights_html = ''.join(highlight_items) if highlight_items else "<li class='meta'>이번 주 확정된 초중요 이벤트 없음</li>"
 
     top_html = ''.join(f"<li>{p}</li>" for p in top_points)
     warn_html = ""
@@ -137,9 +134,9 @@ def build():
 body{{margin:0;background:#0b1020;color:#edf2ff;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif}}
 .wrap{{max-width:980px;margin:0 auto;padding:22px}}
 .card{{background:#121a31;border:1px solid #2c3f7a;border-radius:14px;padding:14px 16px;margin:12px 0}}
-.grid{{display:grid;grid-template-columns:1fr 1fr;gap:12px}} @media(max-width:860px){{.grid{{grid-template-columns:1fr}}}}
 h1,h2{{margin:.2rem 0 .6rem 0}} ul{{margin:0;padding-left:18px}} li{{margin:7px 0;line-height:1.45}}
 .tag{{background:#334b99;border:1px solid #5673d4;color:#d8e4ff;padding:2px 7px;border-radius:999px;font-size:.78rem}}
+.highlight{{background:linear-gradient(transparent 45%, rgba(255,235,59,.45) 45%); padding:2px 0}}
 .meta{{color:#9fb0e8;font-size:.9rem}} .warn{{border-color:#7d5f1f}}
 a{{color:#d7e5ff}}
 </style></head>
@@ -152,9 +149,10 @@ a{{color:#d7e5ff}}
 <ul>{top_html}</ul>
 </section>
 
-<div class='grid'>
-{''.join(day_cards)}
-</div>
+<section class='card'>
+<h2>이번 주 진짜 중요한 일정만</h2>
+<ul>{highlights_html}</ul>
+</section>
 
 <section class='card'>
 <h2>실적 발표 빠른 확인</h2>
