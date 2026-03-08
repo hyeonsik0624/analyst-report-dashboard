@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang='ko'>
+<head>
+<meta charset='utf-8'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'/>
+<title>핵심 일정 대시보드</title>
+<style>
+body{margin:0;background:#0b1020;color:#edf2ff;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:22px}
+.card{background:#121a31;border:1px solid #2c3f7a;border-radius:14px;padding:14px 16px;margin:12px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px} @media(max-width:860px){.grid{grid-template-columns:1fr}}
+h1,h2{margin:.2rem 0 .6rem 0} ul{margin:0;padding-left:18px} li{margin:7px 0;line-height:1.45}
+.tag{background:#334b99;border:1px solid #5673d4;color:#d8e4ff;padding:2px 7px;border-radius:999px;font-size:.78rem}
+.meta{color:#9fb0e8;font-size:.9rem} .impact{padding:2px 6px;border-radius:6px;font-size:.75rem}
+.impact.high{background:#5d1f2b;color:#ffd3d9;border:1px solid #a03f54}
+.warn{border-color:#7d5f1f}
+a{color:#d7e5ff}
+</style>
+</head>
+<body><div class='wrap'>
+<h1>핵심 일정 대시보드</h1>
+<div class='meta'>업데이트: 2026-03-08 11:59 KST · 매매 전 체크용</div>
+
+<section class='card'>
+<h2>초중요 일정(직접 관리)</h2>
+<ul><li><strong>미정</strong> · 한미 정상회담 <span class='impact high'>HIGH</span><br><span class='meta'>확정 시 외교/방산/환율 민감도 확대 가능</span></li><li><strong>매일</strong> · 미국 주요 기업 실적 캘린더 확인 <span class='impact high'>HIGH</span><br><span class='meta'>장 전/장 후 발표 시 국내 반도체·AI·2차전지 연동 체크</span></li><li><strong>매일</strong> · 국내 공시/실적 발표 확인(DART/KRX) <span class='impact high'>HIGH</span><br><span class='meta'>갭상승·갭하락 리스크 관리</span></li></ul>
+<div class='meta'>※ 한미정상회담/대형 정책이벤트는 확정시 date를 실제 날짜로 갱신</div>
+</section>
+
+<div class='grid'>
+  <section class='card'><h2>미국 물가 지표</h2><ul><li>수집된 일정 없음</li><li>수집된 일정 없음</li></ul></section>
+  <section class='card'><h2>연준 FOMC</h2><ul><li>2026-04-06 <span class='tag'>FOMC</span> (April 06)</li><li>2026-04-07 <span class='tag'>FOMC</span> (April 07)</li><li>2026-04-09 <span class='tag'>FOMC</span> (April 09)</li><li>2026-04-10 <span class='tag'>FOMC</span> (April 10)</li><li>2026-04-12 <span class='tag'>FOMC</span> (April 12)</li><li>2026-05-19 <span class='tag'>FOMC</span> (May 19)</li><li>2026-05-22 <span class='tag'>FOMC</span> (May 22)</li><li>2026-05-24 <span class='tag'>FOMC</span> (May 24)</li><li>2026-05-25 <span class='tag'>FOMC</span> (May 25)</li><li>2026-05-28 <span class='tag'>FOMC</span> (May 28)</li></ul></section>
+</div>
+
+<section class='card'>
+<h2>실적발표/공시 바로가기</h2>
+<ul>
+<li><a target='_blank' rel='noopener' href='https://www.nasdaq.com/market-activity/earnings'>미국 Earnings Calendar (Nasdaq)</a></li>
+<li><a target='_blank' rel='noopener' href='https://www.sec.gov/edgar/searchedgar/companysearch'>미국 SEC EDGAR 공시</a></li>
+<li><a target='_blank' rel='noopener' href='https://dart.fss.or.kr/'>국내 DART 공시</a></li>
+<li><a target='_blank' rel='noopener' href='https://kind.krx.co.kr/'>KRX KIND 공시/IPO</a></li>
+<li><a target='_blank' rel='noopener' href='https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm'>FOMC 공식 캘린더</a></li>
+<li><a target='_blank' rel='noopener' href='https://www.bls.gov/schedule/news_release/cpi.htm'>BLS CPI 일정</a></li>
+<li><a target='_blank' rel='noopener' href='https://www.bls.gov/schedule/news_release/ppi.htm'>BLS PPI 일정</a></li>
+</ul>
+</section>
+
+<section class='card warn'><h2>수집 경고</h2><ul><li>CPI 수집 실패: HTTP Error 403: Forbidden</li><li>PPI 수집 실패: HTTP Error 403: Forbidden</li></ul></section>
+</div></body></html>
