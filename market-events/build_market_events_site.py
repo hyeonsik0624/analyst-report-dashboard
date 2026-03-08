@@ -172,6 +172,14 @@ def build():
         seen.add(key)
         important_events.append((d, label, g))
 
+    # FOMC가 연속 2일로 잡히면 1일차/결정일로 표시
+    for i in range(len(important_events) - 1):
+        d1, t1, g1 = important_events[i]
+        d2, t2, g2 = important_events[i + 1]
+        if g1 == '연준' and g2 == '연준' and t1 == 'FOMC 금리결정' and t2 == 'FOMC 금리결정' and (d2 - d1).days == 1:
+            important_events[i] = (d1, 'FOMC 회의(1일차)', g1)
+            important_events[i + 1] = (d2, 'FOMC 금리결정/기자회견', g2)
+
     # 너무 길면 상위 6개만
     important_events = important_events[:6]
 
