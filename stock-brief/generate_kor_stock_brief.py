@@ -154,12 +154,15 @@ def build_html(items: List[Item], out: Path):
     for sec in list(grouped.keys()):
         grouped[sec] = grouped[sec][:10]
 
-    section_order = list(SECTIONS.keys()) + ["기타 중요뉴스"]
+    base_order = list(SECTIONS.keys()) + ["기타 중요뉴스"]
 
     def fmt_dt(d: datetime | None) -> str:
         if not d:
             return "시간정보없음"
         return d.strftime('%m-%d %H:%M')
+
+    # 기사 수 많은 섹터 우선 정렬(동률은 기본 순서 유지)
+    section_order = sorted(base_order, key=lambda s: (-len(grouped.get(s, [])), base_order.index(s)))
 
     sections_html = []
     total = 0
