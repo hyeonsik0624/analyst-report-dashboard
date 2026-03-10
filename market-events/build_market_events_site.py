@@ -6,9 +6,11 @@ import json
 import urllib.request
 from datetime import datetime, timezone, timedelta, time
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 KST = timezone(timedelta(hours=9))
 UTC = timezone.utc
+US_ET = ZoneInfo('America/New_York')
 
 NASDAQ_EARNINGS_API = "https://api.nasdaq.com/api/calendar/earnings?date={date}"
 NASDAQ_ECON_API = "https://api.nasdaq.com/api/calendar/economicevents?date={date}"
@@ -55,13 +57,13 @@ def weekday_kr(d):
     return ["월", "화", "수", "목", "금", "토", "일"][d.weekday()]
 
 
-def gmt_to_kst_label(base_date, gmt_str: str) -> tuple:
-    s = (gmt_str or "").strip()
+def us_event_time_to_kst_label(base_date, time_str: str) -> tuple:
+    s = (time_str or "").strip()
     if not re.match(r"^\d{1,2}:\d{2}$", s):
         return base_date, "시간 미정"
     hh, mm = map(int, s.split(':'))
-    dt_utc = datetime.combine(base_date, time(hh, mm), tzinfo=UTC)
-    dt_kst = dt_utc.astimezone(KST)
+    dt_et = datetime.combine(base_date, time(hh, mm), tzinfo=US_ET)
+    dt_kst = dt_et.astimezone(KST)
     return dt_kst.date(), dt_kst.strftime('%H:%M KST')
 
 
@@ -134,7 +136,8 @@ def build():
                 country = (r.get('country') or '').lower()
                 name = (r.get('eventName') or '')
                 low = name.lower()
-                event_date, tlabel = gmt_to_kst_label(d, r.get('gmt', ''))
+                # Nasdaq 경제지표 API의 gmt 필드는 실사용상 미국 동부시간(ET) 기준으로 취급해야 KST 변환이 맞음.
+                event_date, tlabel = us_event_time_to_kst_label(d, r.get('gmt', ''))
                 if country not in ('united states', 'us', 'usa'):
                     continue
                 if ('consumer price' in low) or (re.search(r'\bcpi\b', low)):
